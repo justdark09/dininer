@@ -1,54 +1,67 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main
 {
-    public static void main(String[] args) throws IOException
+    protected static ProgramData data = new ProgramData();
+    public static void main(String[] args)
     {
-        int foodChoiceMultiplier = 0;
-        int baseChoice = 1;
+        ArrayList<String> fullList = data.getFullList();
+        ArrayList<String> sitDownList = data.getSitList();
+        ArrayList<String> fastFoodList = data.getFastList();
+        ArrayList<String> currentList = new ArrayList<>();
 
-        System.out.println("Would you like to include Sit Down Restaurant Options? (y/n)\n");
-        Scanner sitDown = new Scanner(System.in);
-        String SsitDown = sitDown.nextLine();
-        if (SsitDown.equals("y")) {
-            foodChoiceMultiplier += 3;
-        } else {
-            baseChoice += 3;
-        }
+        System.out.println("Here is your complete list of restaurants:\n");
 
-        System.out.println("Would you like to include Fast Food Options? (y/n)\n");
-        Scanner fastFood = new Scanner(System.in);
-        String SfastFood = fastFood.nextLine();
-        if (SfastFood.equals("y")) {
-            foodChoiceMultiplier += 4;
-        }
+        printList(fullList);
 
-        int foodChoice = (int) (Math.random() * foodChoiceMultiplier) + baseChoice;
+        System.out.println("Would you like to edit or add to this list? (y/n)\n");
+        Scanner user = new Scanner(System.in);
+        String response = user.nextLine();
+        if (response.equals("y")) {
+            System.out.println("\nWhich list would you like to edit?\n " +
+            "1) Sit-Down List\n" + 
+            "2) Fast-Food List\n" +
+            "3) Go Back\n");
+            response = user.nextLine();
 
-        ProgramData data = new ProgramData(baseChoice, foodChoiceMultiplier);
-
-
-        //Removes the [] and , from the final printed list
-        ArrayList<String> list = data.getList();
-
-
-        for (int i = 0; i < list.size(); i++) {
-            
-            String currentString = list.get(i);
-            currentString.toString().replace("[", "").replace("]", "").replace(",", "");
-
-
-            if (currentString.substring(0, 1) == "\\s") {
-                currentString = list.get(i).substring(1);
+            if (response.equals("1")) {
+                editList(sitDownList);
+            } else if (response.equals("2")) {
+                editList(fastFoodList);
+            } else if (!response.equals("n")) {
+                System.out.println("Please enter either \"y\" or \"n\"\n");
             }
-            System.out.println(currentString);
         }
-        sitDown.close();
-        fastFood.close();
 
-        
+        System.out.println("Would you like to include Sit Down Restaurants? (y/n)");
+        response = user.nextLine();
+        if (response.equals("y")) {
+            System.out.println("Would you like to include Fast Food Restaurants? (y/n)");
+                response = user.nextLine();
+                if (response.equals("y")) {
+                    currentList = fullList;
+                } else {
+                currentList = sitDownList;
+            } 
+        } else {
+            System.out.println("Would you like to include Fast Food Restaurants? (y/n)");
+                response = user.nextLine();
+                if (response.equals("y")) {
+                    currentList = fullList;
+                } else {
+                currentList = sitDownList;
+            }
+        }
+
+        int foodChoice = (int) (Math.random() * currentList.size()) + 1;
+        System.out.println("Here is the list of choices currently being chosen from: \n");
+        printList(currentList);
+         
         System.out.println("\nChecking Sources...");
         try
         {
@@ -84,12 +97,56 @@ public class Main
         {
             Thread.currentThread().interrupt();
         }
-
-        System.out.println(getCHoice(list, foodChoice) + "!!!!!");
+        System.out.println(getCHoice(currentList, foodChoice) + "!!!!!");
     }
 
     public static String getCHoice(ArrayList<String> list, int foodChoice)
     {
         return list.get(foodChoice);
+    }
+
+    public static void printList(ArrayList<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            String currentString = list.get(i);
+            System.out.println((i+1) + ". " + currentString);
+        }
+    }
+
+    private static void editList(ArrayList<String> list) {
+
+        Scanner user = new Scanner(System.in);
+        String response = "";
+
+        System.out.println("\n");
+        System.out.println("Here is the current List:");
+        printList(list);
+        System.out.println("\nWhat would you like to do?\n" +
+        "1) Add Restaurant\n" + 
+        "2) Edit Restaurant\n" +
+        "3) Go Back\n");
+        response = user.nextLine();
+
+        if (response.equals("1")) {
+            addRestaurant(list);
+        }
+        
+    }
+
+    private static void addRestaurant(ArrayList<String> list) {
+
+        Scanner user = new Scanner(System.in);
+        String response = "";
+
+        System.out.println("Enter Name of the Restaurant you would like to add\n");
+            response = user.nextLine();
+
+            list.add(response);
+            try (PrintWriter writer = new PrintWriter(new FileWriter(data.getSitFile()), true)) {
+                for (String line : list) {
+                    writer.println(line);
+                }
+            } catch (IOException e) {
+                System.err.println("error writing to file: " + e.getMessage());
+            }
     }
 }
