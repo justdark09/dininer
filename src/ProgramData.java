@@ -65,4 +65,18 @@ public class ProgramData {
     public File getFastFile() {
         return fastFoodFile;
     }
+
+    public File getThisFUckingFileNowPleasee(File file) {
+        return file;
+    }
+
+    public File getCurrentFile(ArrayList<String> list) {
+        File file = new File("null");
+        if (getSitList().equals(list)) {
+            file = getSitFile();
+        } else if (getFastList().equals(list)) {
+            file = getFastFile();
+        }
+        return file;
+    }
 }

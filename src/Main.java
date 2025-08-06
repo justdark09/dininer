@@ -5,6 +5,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ * todo:
+ * 
+ * add the "Edit List" functionality
+ * add the "cancel" functionality
+ * make it so i can leave the program after editing without receiving a random restuarant
+ */
+
+
 public class Main
 {
     protected static ProgramData data = new ProgramData();
@@ -19,7 +28,7 @@ public class Main
 
         printList(fullList);
 
-        System.out.println("Would you like to edit or add to this list? (y/n)\n");
+        System.out.println("\nWould you like to edit or add to this list? (y/n)");
         Scanner user = new Scanner(System.in);
         String response = user.nextLine();
         if (response.equals("y")) {
@@ -38,10 +47,10 @@ public class Main
             }
         }
 
-        System.out.println("Would you like to include Sit Down Restaurants? (y/n)");
+        System.out.println("\nWould you like to include Sit Down Restaurants? (y/n)");
         response = user.nextLine();
         if (response.equals("y")) {
-            System.out.println("Would you like to include Fast Food Restaurants? (y/n)");
+            System.out.println("\nWould you like to include Fast Food Restaurants? (y/n)");
                 response = user.nextLine();
                 if (response.equals("y")) {
                     currentList = fullList;
@@ -49,17 +58,17 @@ public class Main
                 currentList = sitDownList;
             } 
         } else {
-            System.out.println("Would you like to include Fast Food Restaurants? (y/n)");
+            System.out.println("\nWould you like to include Fast Food Restaurants? (y/n)");
                 response = user.nextLine();
                 if (response.equals("y")) {
-                    currentList = fullList;
+                    currentList = fastFoodList;
                 } else {
                 currentList = sitDownList;
             }
         }
 
-        int foodChoice = (int) (Math.random() * currentList.size()) + 1;
-        System.out.println("Here is the list of choices currently being chosen from: \n");
+        int foodChoice = (int) (Math.random() * currentList.size());
+        System.out.println("\nHere is the list of choices currently being chosen from: \n");
         printList(currentList);
          
         System.out.println("\nChecking Sources...");
@@ -140,13 +149,13 @@ public class Main
         System.out.println("Enter Name of the Restaurant you would like to add\n");
             response = user.nextLine();
 
-            list.add(response);
-            try (PrintWriter writer = new PrintWriter(new FileWriter(data.getSitFile()), true)) {
-                for (String line : list) {
-                    writer.println(line);
-                }
-            } catch (IOException e) {
-                System.err.println("error writing to file: " + e.getMessage());
+        list.add(response);
+        try (PrintWriter writer = new PrintWriter(new FileWriter(data.getCurrentFile(list)), true)) {
+            for (String line : list) {
+                writer.println(line);
             }
+        } catch (IOException e) {
+            System.err.println("error writing to file: " + e.getMessage());
+        }
     }
 }
