@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,13 +15,18 @@ import java.util.Scanner;
 
 public class Main
 {
-    protected static ProgramData data = new ProgramData();
+    protected static ProgramData data;
+    protected static void createData() {
+        data = new ProgramData();
+    }
     public static void main(String[] args)
     {
+        createData();
+
         ArrayList<String> fullList = data.getFullList();
         ArrayList<String> sitDownList = data.getSitList();
         ArrayList<String> fastFoodList = data.getFastList();
-        ArrayList<String> currentList = new ArrayList<>();
+        ArrayList<String> currentList;
 
         System.out.println("Here is your complete list of restaurants:\n");
 

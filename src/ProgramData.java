@@ -14,8 +14,8 @@ public class ProgramData {
     protected ArrayList<String> sitDownList = new ArrayList<>();
     protected ArrayList<String> fastFoodList = new ArrayList<>();
     
-    File sitDownFile = new File("JavaProjects\\dininer\\src\\SitDown.txt");
-    File fastFoodFile = new File("JavaProjects\\dininer\\src\\FastFood.txt");
+    File sitDownFile = new File("src\\SitDown.txt");
+    File fastFoodFile = new File("src\\FastFood.txt");
 
     public void createLists() {
         try {
