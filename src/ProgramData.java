@@ -6,9 +6,23 @@ import java.util.Scanner;
 
 public class ProgramData {
 
+    private File sitDownFile;
+    private File fastFoodFile;
+
     public ProgramData() {
-        File sitDownFile;
-        File fastFoodFile;
+        String osname = System.getProperty("os.name");
+        String separator;
+
+        System.out.println(osname);
+
+        if (osname.toLowerCase().contains("linux") || osname.toLowerCase().contains("mac")) {
+            separator = "/";
+        } else {
+            separator = "\\";
+        }
+        
+        this.sitDownFile = new File("src" + separator + "SitDown.txt");
+        this.fastFoodFile = new File("src" + separator + "FastFood.txt");
         createLists();
     }
 
@@ -16,34 +30,8 @@ public class ProgramData {
     protected ArrayList<String> sitDownList = new ArrayList<>();
     protected ArrayList<String> fastFoodList = new ArrayList<>();
 
-    protected File createFilePaths(String fileString) {
-        String osname = System.getProperty("os.name");
-        String separator;
-
-
-
-        if (osname.toLowerCase().contains("linux") || osname.toLowerCase().contains("mac")) {
-            separator = "/";
-        } else {
-            separator = "\\";
-        }
-        File sitDownFile = new File("src" + separator + "SitDown.txt");
-        File fastFoodFile = new File("src" + separator + "FastFood.txt");
-
-        if (fileString.equals("fast")) {
-            return fastFoodFile;
-        } else {
-            return sitDownFile;
-        }
-    }
-
-
-    //File fastFoodFile = new File("src\\FastFood.txt");
 
     public void createLists() {
-
-        File sitDownFile = createFilePaths("sit");
-        File fastFoodFile = createFilePaths("fast");
 
         try {
             Scanner sitDownReader = new Scanner(sitDownFile);

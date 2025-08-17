@@ -31,14 +31,13 @@ public class Main
         ArrayList<String> currentList;
 
         System.out.println("Here is your complete list of restaurants:\n");
-
         printList(fullList);
 
         System.out.println("\nWould you like to edit or add to this list? (y/n)");
         Scanner user = new Scanner(System.in);
         String response = user.nextLine();
         if (response.equals("y")) {
-            System.out.println("\nWhich list would you like to edit?\n " +
+            System.out.println("\nWhich list would you like to edit?\n" +
             "1) Sit-Down List\n" + 
             "2) Fast-Food List\n" +
             "3) Go Back\n");
@@ -72,6 +71,8 @@ public class Main
                 currentList = sitDownList;
             }
         }
+
+        user.close();
 
         int foodChoice = (int) (Math.random() * currentList.size());
         System.out.println("\nHere is the list of choices currently being chosen from: \n");
@@ -143,6 +144,10 @@ public class Main
 
         if (response.equals("1")) {
             addRestaurant(list);
+        } else if (response.equals("2")) {
+            editRestuarant(list);
+        } else {
+            System.out.println("make everything into methods so you can call them to go back to them");
         }
         
     }
@@ -153,7 +158,7 @@ public class Main
         String response = "";
 
         System.out.println("Enter Name of the Restaurant you would like to add\n");
-            response = user.nextLine();
+        response = user.nextLine();
 
         list.add(response);
         try (PrintWriter writer = new PrintWriter(new FileWriter(data.getCurrentFile(list)), true)) {
@@ -163,5 +168,30 @@ public class Main
         } catch (IOException e) {
             System.err.println("error writing to file: " + e.getMessage());
         }
+    }
+
+    private static void editRestuarant(ArrayList<String> list) {
+        Scanner user = new Scanner(System.in);
+        String response = "";
+
+        System.out.println("Which restuarant would you like to edit?");
+        printList(list);
+        
+        response = user.nextLine();
+        String restaurant = response;
+
+        System.out.println("What is the new restaurant?");
+        response = user.nextLine();
+
+        list.set(Integer.parseInt(restaurant)-1, response);
+        try (PrintWriter writer = new PrintWriter(new FileWriter(data.getCurrentFile(list)), true)) {
+            for (String line : list) {
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            System.err.println("error writing to file: " + e.getMessage());
+        }
+        System.out.println("Here is the new list:");
+        printList(list);
     }
 }
