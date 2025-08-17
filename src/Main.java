@@ -10,6 +10,8 @@ import java.util.Scanner;
  * add the "Edit List" functionality
  * add the "cancel" functionality
  * make it so i can leave the program after editing without receiving a random restuarant
+ * 
+ * src/FastFood.txt
  */
 
 

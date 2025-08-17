@@ -7,17 +7,44 @@ import java.util.Scanner;
 public class ProgramData {
 
     public ProgramData() {
+        File sitDownFile;
+        File fastFoodFile;
         createLists();
     }
 
     protected ArrayList<String> restaurantChoices = new ArrayList<>();
     protected ArrayList<String> sitDownList = new ArrayList<>();
     protected ArrayList<String> fastFoodList = new ArrayList<>();
-    
-    File sitDownFile = new File("src\\SitDown.txt");
-    File fastFoodFile = new File("src\\FastFood.txt");
+
+    protected File createFilePaths(String fileString) {
+        String osname = System.getProperty("os.name");
+        String separator;
+
+
+
+        if (osname.toLowerCase().contains("linux") || osname.toLowerCase().contains("mac")) {
+            separator = "/";
+        } else {
+            separator = "\\";
+        }
+        File sitDownFile = new File("src" + separator + "SitDown.txt");
+        File fastFoodFile = new File("src" + separator + "FastFood.txt");
+
+        if (fileString.equals("fast")) {
+            return fastFoodFile;
+        } else {
+            return sitDownFile;
+        }
+    }
+
+
+    //File fastFoodFile = new File("src\\FastFood.txt");
 
     public void createLists() {
+
+        File sitDownFile = createFilePaths("sit");
+        File fastFoodFile = createFilePaths("fast");
+
         try {
             Scanner sitDownReader = new Scanner(sitDownFile);
 
@@ -42,6 +69,7 @@ public class ProgramData {
             }
             fastFoodReader.close();
         } catch (FileNotFoundException e) {
+            //System.out.println(System.getProperty("os.name"));
             System.out.println("A REALLY biggy back ate BOTH of the photos..");
         }
     }
