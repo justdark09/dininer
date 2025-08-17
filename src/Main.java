@@ -174,9 +174,10 @@ public class Main
         Scanner user = new Scanner(System.in);
         String response = "";
 
-        System.out.println("Which restuarant would you like to edit?");
+        System.out.println("\nWhich restuarant would you like to edit?");
         printList(list);
         
+        System.out.println();
         response = user.nextLine();
         String restaurant = response;
 
