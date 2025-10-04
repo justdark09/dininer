@@ -15,14 +15,19 @@ public class ProgramData {
 
         System.out.println(osname);
 
-        if (osname.toLowerCase().contains("linux") || osname.toLowerCase().contains("mac")) {
+        if (osname.toLowerCase().contains("lin") || osname.toLowerCase().contains("mac")) {
             separator = "/";
+             
+        
+            this.sitDownFile = new File("SitDown.txt");  
+            this.fastFoodFile = new File("FastFood.txt");
+        
         } else {
             separator = "\\";
         }
         
-        this.sitDownFile = new File("src" + separator + "SitDown.txt");
-        this.fastFoodFile = new File("src" + separator + "FastFood.txt");
+        //this.sitDownFile = new File("src" + separator + "SitDown.txt");
+        //this.fastFoodFile = new File("src" + separator + "FastFood.txt");
         createLists();
     }
 
