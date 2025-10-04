@@ -11,7 +11,6 @@ public class ProgramData {
 
     public ProgramData() {
         String osname = System.getProperty("os.name");
-        String separator;
 
         System.out.println(osname);
 
@@ -42,7 +41,7 @@ public class ProgramData {
                 restaurantChoices.add(currentLine);
                 sitDownList.add(currentLine);
             }
-            sitDownReader.close();
+            sitDownReader.close();=
         } catch (FileNotFoundException e) {
             System.out.println("A biggy back ate the photo..");
         }
