@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class ProgramData {
-
+public class ProgramData { 
     private File sitDownFile;
     private File fastFoodFile;
 
@@ -13,15 +12,28 @@ public class ProgramData {
         String osname = System.getProperty("os.name");
 
         System.out.println(osname);
-
-        if (osname.toLowerCase().contains("lin") || osname.toLowerCase().contains("mac")) {    
+        
+        String currDirectory = (System.getProperty("user.dir"));
+        if (currDirectory.contains("src")) {    
             this.sitDownFile = new File("SitDown.txt");  
             this.fastFoodFile = new File("FastFood.txt");
-        
-        } else {
-            this.sitDownFile = new File("src\\SitDown.txt");
-            this.fastFoodFile = new File("src\\FastFood.txt");
+        } else if ((osname.toLowerCase().contains("mac")) || (osname.toLowerCase().contains("lin"))) { 
+            this.sitDownFile = new File("src/SitDown.txt");  
+            this.fastFoodFile = new File("src/FastFood.txt");
         }
+
+
+        //if (osname.toLowerCase().contains("lin")) {    
+        //    this.sitDownFile = new File("SitDown.txt");  
+        //    this.fastFoodFile = new File("FastFood.txt");
+        
+        //} else if (osname.toLowerCase().contains("mac")) { 
+        //    this.sitDownFile = new File("src/SitDown.txt");  
+        //    this.fastFoodFile = new File("src/FastFood.txt");
+        //} else {
+        //    this.sitDownFile = new File("src\\SitDown.txt");
+        //    this.fastFoodFile = new File("src\\FastFood.txt");
+        //}
         createLists();
     }
 
@@ -41,7 +53,7 @@ public class ProgramData {
                 restaurantChoices.add(currentLine);
                 sitDownList.add(currentLine);
             }
-            sitDownReader.close();=
+            sitDownReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("A biggy back ate the photo..");
         }
