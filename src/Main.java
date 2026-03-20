@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 /* Test from Laptop
  * todo:
- * 
- * add the "Edit List" functionality
+ *
  * add the "cancel" functionality
  * make it so i can leave the program after editing without receiving a random restuarant
  * 
@@ -139,13 +138,16 @@ public class Main
         System.out.println("\nWhat would you like to do?\n" +
         "1) Add Restaurant\n" + 
         "2) Edit Restaurant\n" +
-        "3) Go Back\n");
+        "3) Remove Restuarant\n" +
+        "4) Go Back\n");
         response = user.nextLine();
 
         if (response.equals("1")) {
             addRestaurant(list);
         } else if (response.equals("2")) {
             editRestuarant(list);
+        } else if (response.equals("3")){
+            removeRestuarant(list);
         } else {
             System.out.println("make everything into methods so you can call them to go back to them");
         }
@@ -194,5 +196,19 @@ public class Main
         }
         System.out.println("Here is the new list:");
         printList(list);
+    }
+
+    private static void removeRestuarant(ArrayList<String> list) {
+        Scanner user = new Scanner(System.in);
+        String response = "";
+
+        System.out.println("\nWhich restuarant would you like to remove?");
+        printList(list);
+
+        System.out.println();
+        response = user.nextLine();
+        String restaurant = response;
+
+        list.remove(Integer.parseInt(restaurant)-1);
     }
 }
