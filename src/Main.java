@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,8 +9,6 @@ import java.util.Scanner;
  * todo:
  *
  * add the "cancel" functionality
- * make it so i can leave the program after editing without receiving a random restuarant
- * 
  * src/FastFood.txt
  */
 
@@ -29,6 +28,7 @@ public class Main
         ArrayList<String> fastFoodList = data.getFastList();
         ArrayList<String> currentList;
 
+        System.out.println("\n\n------RANDOM RESTAURANT CHOOSER!!!!------");
         System.out.println("Here is your complete list of restaurants:\n");
         printList(fullList);
 
@@ -36,27 +36,7 @@ public class Main
         Scanner user = new Scanner(System.in);
         String response = user.nextLine();
         if (response.equals("y")) {
-
-            // "response" is updated in the look but idk man
-            label:
-            while (!response.equals("3")) {
-                System.out.println("\nWhich list would you like to edit?\n" +
-                        "1) Sit-Down List\n" +
-                        "2) Fast-Food List\n" +
-                        "3) Continue to Restaurant Selection\n");
-                response = user.nextLine();
-
-                switch (response) {
-                    case "1":
-                        editList(sitDownList);
-                        break;
-                    case "2":
-                        editList(fastFoodList);
-                        break;
-                    case "3":
-                        break label;
-                }
-            }
+            homebase();
         }
 
         System.out.println("\nWould you like to include Sit Down Restaurants? (y/n)");
@@ -135,12 +115,45 @@ public class Main
         }
     }
 
+    private static void homebase() {
+        ArrayList<String> sitDownList = data.getSitList();
+        ArrayList<String> fastFoodList = data.getFastList();
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("\n");
+        }
+
+        System.out.println("\nWhich list would you like to edit?");
+        System.out.println("""
+                     1) Sit-Down List
+                     2) Fast-Food List
+                     3) Continue to Restaurant Selection
+                     """);
+        Scanner user = new Scanner(System.in);
+        String response = user.nextLine();
+        label:
+        while (!response.equals("3")) {
+            switch (response) {
+                case "1":
+                    editList(sitDownList);
+                    break;
+                case "2":
+                    editList(fastFoodList);
+                    break;
+                case "3":
+                    break label;
+            }
+        }
+    }
+
     private static void editList(ArrayList<String> list) {
 
         Scanner user = new Scanner(System.in);
         String response = "";
 
-        System.out.println("\n");
+        for (int i = 0; i < 10; i++) {
+            System.out.println("\n");
+        }
         System.out.println("Here is the current List:");
         printList(list);
         System.out.println("\nWhat would you like to do?\n" +
@@ -156,8 +169,8 @@ public class Main
             editRestaurant(list);
         } else if (response.equals("3")){
             removeRestaurant(list);
-        } else {
-            System.out.println("make everything into methods so you can call them to go back to them");
+        } else if (response.equals("4")){
+            homebase();
         }
     }
 
