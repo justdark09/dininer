@@ -36,18 +36,26 @@ public class Main
         Scanner user = new Scanner(System.in);
         String response = user.nextLine();
         if (response.equals("y")) {
-            System.out.println("\nWhich list would you like to edit?\n" +
-            "1) Sit-Down List\n" + 
-            "2) Fast-Food List\n" +
-            "3) Go Back\n");
-            response = user.nextLine();
 
-            if (response.equals("1")) {
-                editList(sitDownList);
-            } else if (response.equals("2")) {
-                editList(fastFoodList);
-            } else if (!response.equals("n")) {
-                System.out.println("Please enter either \"y\" or \"n\"\n");
+            // "response" is updated in the look but idk man
+            label:
+            while (!response.equals("3")) {
+                System.out.println("\nWhich list would you like to edit?\n" +
+                        "1) Sit-Down List\n" +
+                        "2) Fast-Food List\n" +
+                        "3) Continue to Restaurant Selection\n");
+                response = user.nextLine();
+
+                switch (response) {
+                    case "1":
+                        editList(sitDownList);
+                        break;
+                    case "2":
+                        editList(fastFoodList);
+                        break;
+                    case "3":
+                        break label;
+                }
             }
         }
 
@@ -138,20 +146,19 @@ public class Main
         System.out.println("\nWhat would you like to do?\n" +
         "1) Add Restaurant\n" + 
         "2) Edit Restaurant\n" +
-        "3) Remove Restuarant\n" +
+        "3) Remove Restaurant\n" +
         "4) Go Back\n");
         response = user.nextLine();
 
         if (response.equals("1")) {
             addRestaurant(list);
         } else if (response.equals("2")) {
-            editRestuarant(list);
+            editRestaurant(list);
         } else if (response.equals("3")){
-            removeRestuarant(list);
+            removeRestaurant(list);
         } else {
             System.out.println("make everything into methods so you can call them to go back to them");
         }
-        
     }
 
     private static void addRestaurant(ArrayList<String> list) {
@@ -170,9 +177,17 @@ public class Main
         } catch (IOException e) {
             System.err.println("error writing to file: " + e.getMessage());
         }
+
+        System.out.println("Would you like to add another restaurant? (y/n)");
+        response = user.nextLine();
+        while (!response.equals("n")) {
+            if (response.equals("y")) {
+                addRestaurant(list);
+            }
+        }
     }
 
-    private static void editRestuarant(ArrayList<String> list) {
+    private static void editRestaurant(ArrayList<String> list) {
         Scanner user = new Scanner(System.in);
         String response = "";
 
@@ -196,19 +211,39 @@ public class Main
         }
         System.out.println("Here is the new list:");
         printList(list);
+
+        System.out.println("Would you like to edit another restaurant? (y/n)");
+        response = user.nextLine();
+        while (!response.equals("n")) {
+            if (response.equals("y")) {
+                editRestaurant(list);
+            }
+        }
     }
 
-    private static void removeRestuarant(ArrayList<String> list) {
+    private static void removeRestaurant(ArrayList<String> list) {
         Scanner user = new Scanner(System.in);
         String response = "";
 
         System.out.println("\nWhich restuarant would you like to remove?");
         printList(list);
+        System.out.println((list.size()+1) + ". Cancel\n");
 
-        System.out.println();
         response = user.nextLine();
+
+        if (Integer.parseInt(response) == list.size()+1) {
+            editList(list);
+        }
         String restaurant = response;
 
         list.remove(Integer.parseInt(restaurant)-1);
+
+        System.out.println("Would you like to remove another restaurant? (y/n)");
+        response = user.nextLine();
+        while (!response.equals("n")) {
+            if (response.equals("y")) {
+                removeRestaurant(list);
+            }
+        }
     }
 }
